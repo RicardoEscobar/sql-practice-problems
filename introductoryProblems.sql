@@ -31,4 +31,7 @@ SELECT ProductID, ProductName
 FROM Products
 WHERE ProductName LIKE '%queso%';
 
--- 8.
+-- 8. Orders shipping to France or Belgium
+SELECT OrderID, CustomerID, ShipCountry
+FROM Orders
+WHERE ShipCountry IN ('France', 'Belgium');
