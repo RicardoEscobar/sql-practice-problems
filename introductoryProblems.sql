@@ -55,3 +55,7 @@ ORDER BY BirthDate;
 SELECT FirstName, LastName, CONCAT(FirstName, ' ', LastName) AS FullName
 FROM Employees;
 
+-- 13. OrderDetails amount per line item
+SELECT OrderID, ProductID, UnitPrice, Quantity, UnitPrice * Quantity AS TotalPrice
+FROM OrderDetails
+ORDER BY OrderID, ProductID;
