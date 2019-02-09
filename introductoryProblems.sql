@@ -62,3 +62,6 @@ ORDER BY OrderID, ProductID;
 
 -- 14. How many customers
 SELECT COUNT(*) AS TotalCustomers FROM Customers;
+
+-- 15. When was the first order?
+SELECT MIN(OrderDate) AS FirstOrder FROM Orders;
