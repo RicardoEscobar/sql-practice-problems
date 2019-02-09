@@ -65,3 +65,7 @@ SELECT COUNT(*) AS TotalCustomers FROM Customers;
 
 -- 15. When was the first order?
 SELECT MIN(OrderDate) AS FirstOrder FROM Orders;
+
+-- 16. Countries where there are customers
+SELECT Country FROM Customers
+GROUP BY Country;
