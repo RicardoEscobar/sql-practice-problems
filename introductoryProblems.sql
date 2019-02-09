@@ -79,3 +79,10 @@ GROUP BY ContactTitle;
 SELECT ProductID, ProductName, CompanyName
 FROM Products
 JOIN Suppliers on Products.SupplierID = Suppliers.SupplierID;
+
+-- 19. Orders and the shipper that was used
+SELECT OrderID, CONVERT(DATE, OrderDate) AS OrderDate, CompanyName
+FROM Orders
+JOIN Shippers on Orders.ShipVia = Shippers.ShipperID
+WHERE OrderID < 10270
+ORDER BY OrderID;
