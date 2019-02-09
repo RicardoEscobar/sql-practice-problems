@@ -35,3 +35,8 @@ WHERE ProductName LIKE '%queso%';
 SELECT OrderID, CustomerID, ShipCountry
 FROM Orders
 WHERE ShipCountry IN ('France', 'Belgium');
+
+-- 9. Orders shipping to any country in Latin America
+SELECT OrderID, CustomerID, ShipCountry
+FROM Orders
+WHERE ShipCountry IN ('Brazil', 'Mexico', 'Argentina', 'Venezuela');
