@@ -40,3 +40,8 @@ WHERE ShipCountry IN ('France', 'Belgium');
 SELECT OrderID, CustomerID, ShipCountry
 FROM Orders
 WHERE ShipCountry IN ('Brazil', 'Mexico', 'Argentina', 'Venezuela');
+
+-- 10. Employees in order of age
+SELECT FirstName, LastName, Title, BirthDate
+FROM Employees
+ORDER BY BirthDate;
