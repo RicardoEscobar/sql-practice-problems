@@ -45,3 +45,9 @@ WHERE ShipCountry IN ('Brazil', 'Mexico', 'Argentina', 'Venezuela');
 SELECT FirstName, LastName, Title, BirthDate
 FROM Employees
 ORDER BY BirthDate;
+
+-- 11. Showing only the date with a dateTime field
+SELECT FirstName, LastName, Title, CONVERT(DATE, BirthDate)
+FROM Employees
+ORDER BY BirthDate;
+
