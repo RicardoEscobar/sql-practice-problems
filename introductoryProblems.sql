@@ -69,3 +69,8 @@ SELECT MIN(OrderDate) AS FirstOrder FROM Orders;
 -- 16. Countries where there are customers
 SELECT Country FROM Customers
 GROUP BY Country;
+
+-- 17. Contact titles for customers
+SELECT ContactTitle, COUNT(ContactTitle) AS TotalContactTitle
+FROM Customers
+GROUP BY ContactTitle;
