@@ -74,3 +74,8 @@ GROUP BY Country;
 SELECT ContactTitle, COUNT(ContactTitle) AS TotalContactTitle
 FROM Customers
 GROUP BY ContactTitle;
+
+-- 18. Products with associated supplier names
+SELECT ProductID, ProductName, CompanyName
+FROM Products
+JOIN Suppliers on Products.SupplierID = Suppliers.SupplierID;
