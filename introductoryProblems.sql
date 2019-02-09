@@ -51,3 +51,7 @@ SELECT FirstName, LastName, Title, CONVERT(DATE, BirthDate)
 FROM Employees
 ORDER BY BirthDate;
 
+-- 12. Employees full name
+SELECT FirstName, LastName, CONCAT(FirstName, ' ', LastName) AS FullName
+FROM Employees;
+
