@@ -12,3 +12,8 @@ SELECT FirstName, LastName, HireDate
 FROM Employees
 WHERE Title = 'Sales representative';
 
+-- 4. Sales representatives in the United States
+SELECT FirstName, LastName, HireDate
+FROM Employees
+WHERE Title = 'Sales representative'
+      AND Country = 'USA' ;
