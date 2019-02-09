@@ -16,4 +16,7 @@ WHERE Title = 'Sales representative';
 SELECT FirstName, LastName, HireDate
 FROM Employees
 WHERE Title = 'Sales representative'
-      AND Country = 'USA' ;
+      AND Country = 'USA';
+
+-- 5. Orders placed by specified EmployeeID
+SELECT * FROM Orders WHERE EmployeeID = 5;
