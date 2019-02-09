@@ -59,3 +59,6 @@ FROM Employees;
 SELECT OrderID, ProductID, UnitPrice, Quantity, UnitPrice * Quantity AS TotalPrice
 FROM OrderDetails
 ORDER BY OrderID, ProductID;
+
+-- 14. How many customers
+SELECT COUNT(*) AS TotalCustomers FROM Customers;
