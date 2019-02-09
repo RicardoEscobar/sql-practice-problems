@@ -25,3 +25,10 @@ SELECT * FROM Orders WHERE EmployeeID = 5;
 SELECT SupplierID, ContactName, ContactTitle
 FROM Suppliers
 WHERE ContactTitle <> 'Marketing Manager';
+
+-- 7. Products with "queso" in ProductName
+SELECT ProductID, ProductName
+FROM Products
+WHERE ProductName LIKE '%queso%';
+
+-- 8.
