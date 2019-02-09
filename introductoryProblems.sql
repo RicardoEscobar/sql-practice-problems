@@ -20,3 +20,8 @@ WHERE Title = 'Sales representative'
 
 -- 5. Orders placed by specified EmployeeID
 SELECT * FROM Orders WHERE EmployeeID = 5;
+
+-- 6. Suppliers and ContactTitles
+SELECT SupplierID, ContactName, ContactTitle
+FROM Suppliers
+WHERE ContactTitle <> 'Marketing Manager';
