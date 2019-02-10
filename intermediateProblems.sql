@@ -62,3 +62,11 @@ FROM Orders
 WHERE OrderDate BETWEEN @START_DATE AND @END_DATE
 GROUP BY ShipCountry
 ORDER BY AverageFreight DESC
+
+-- 29. Employee/Order detail report
+SELECT E.EmployeeID, LastName, O.OrderID, ProductName, Quantity
+FROM Employees AS E
+JOIN Orders AS O ON E.EmployeeID = O.EmployeeID
+JOIN OrderDetails AS OD ON O.OrderID = OD.OrderID
+JOIN Products AS P ON OD.ProductID = P.ProductID
+ORDER BY O.OrderID, P.ProductID
