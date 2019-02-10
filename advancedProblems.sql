@@ -72,3 +72,11 @@ SELECT TOP(2)PERCENT  -- GET THE 2% OF 830
   OrderID
 FROM Orders
 ORDER BY NEWID()
+
+-- 38. Orders accidental double entry
+SELECT OrderID
+FROM OrderDetails
+WHERE Quantity >= 60
+GROUP BY ORDERID, QUANTITY
+HAVING COUNT(*) > 1
+ORDER BY OrderID
