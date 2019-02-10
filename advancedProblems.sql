@@ -241,3 +241,26 @@ JOIN TotalOrders_CTE ON E.EmployeeID = TotalOrders_CTE.EmployeeID
 LEFT JOIN LateOrders_CTE ON E.EmployeeID = LateOrders_CTE.EmployeeID
 GROUP BY E.EmployeeID, LastName, TotalOrders_CTE.TotalOrders, LateOrders_CTE.LateOrders
 ORDER BY E.EmployeeID
+
+-- 48. Customer grouping
+;WITH Orders_CTE AS (
+  SELECT
+         C.CustomerID,
+         C.CompanyName,
+         TotalOrderAmount = SUM(OD.UnitPrice * OD.Quantity)
+  FROM Customers AS C
+         JOIN Orders AS O ON C.CustomerID = O.CustomerID
+         JOIN OrderDetails AS OD ON O.OrderID = OD.OrderID
+  WHERE OrderDate BETWEEN '20160101' AND '20170101'
+  GROUP BY
+           C.CompanyName,
+           C.CustomerID
+)
+SELECT CustomerID, CompanyName, Orders_CTE.TotalOrderAmount,
+  CASE
+    WHEN Orders_CTE.TotalOrderAmount BETWEEN 0 AND 1000 THEN 'Low'
+    WHEN Orders_CTE.TotalOrderAmount BETWEEN 1001 AND 5000 THEN 'Medium'
+    WHEN Orders_CTE.TotalOrderAmount BETWEEN 5001 AND 10000 THEN 'High'
+    WHEN Orders_CTE.TotalOrderAmount > 10000 THEN 'Very High'
+END AS CustomerGroup
+FROM Orders_CTE
