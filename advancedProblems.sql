@@ -216,3 +216,28 @@ JOIN TotalOrders_CTE ON E.EmployeeID = TotalOrders_CTE.EmployeeID
 LEFT JOIN LateOrders_CTE ON E.EmployeeID = LateOrders_CTE.EmployeeID
 GROUP BY E.EmployeeID, LastName, TotalOrders_CTE.TotalOrders, LateOrders_CTE.LateOrders
 ORDER BY E.EmployeeID
+
+-- 47. Late orders vs. total orders—fix decimal
+;WITH LateOrders_CTE AS (Select EmployeeID, LateOrders = Count(*)
+                        From Orders
+                        Where RequiredDate <= ShippedDate
+                        Group By EmployeeID
+),
+ TotalOrders_CTE AS (SELECT EmployeeID,
+                         TotalOrders = Count(*)
+                         From Orders
+                         Group By EmployeeID
+)
+SELECT
+  E.EmployeeID,
+  E.LastName,
+  TotalOrders_CTE.TotalOrders,
+  ISNULL(LateOrders_CTE.LateOrders, 0) AS LateOrders,
+  LateOrdersPercent =CONVERT(DECIMAL(3, 2),
+                           ISNULL(LateOrders_CTE.LateOrders, 0) * 1.0 / TotalOrders_CTE.TotalOrders
+                       )
+FROM Employees AS E
+JOIN TotalOrders_CTE ON E.EmployeeID = TotalOrders_CTE.EmployeeID
+LEFT JOIN LateOrders_CTE ON E.EmployeeID = LateOrders_CTE.EmployeeID
+GROUP BY E.EmployeeID, LastName, TotalOrders_CTE.TotalOrders, LateOrders_CTE.LateOrders
+ORDER BY E.EmployeeID
