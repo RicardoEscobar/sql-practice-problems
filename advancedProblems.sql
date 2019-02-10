@@ -345,3 +345,8 @@ FROM Orders_CTE
 JOIN CustomerGroupThresholds AS CGT
   ON Orders_CTE.TotalOrderAmount BETWEEN CGT.RangeBottom AND CGT.RangeTop
 ORDER BY CustomerID
+
+-- 52. Countries with suppliers or customers
+SELECT Country FROM Suppliers
+  UNION
+SELECT Country FROM Customers
