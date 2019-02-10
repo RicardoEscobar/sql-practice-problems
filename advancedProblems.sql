@@ -41,8 +41,8 @@ ORDER BY TotalOrderAmount DESC
 SELECT
   C.CustomerID,
   C.CompanyName,
-  "Totals Without Discount" = SUM(OD.UnitPrice * OD.Quantity),
-  "Totals With Discount" =
+  TotalsWithoutDiscount = SUM(OD.UnitPrice * OD.Quantity),
+  TotalsWithDiscount =
     SUM((OD.UnitPrice * OD.Quantity) - ((OD.UnitPrice * OD.Quantity) * OD.Discount))-- 0.15 = 15% discount
 FROM Customers AS C
 JOIN Orders AS O ON C.CustomerID = O.CustomerID
@@ -53,4 +53,10 @@ GROUP BY
   C.CompanyName,
   C.CustomerID
 HAVING SUM(OD.UnitPrice * OD.Quantity) >= 15000
-ORDER BY "Totals With Discount" DESC
+ORDER BY TotalsWithDiscount DESC
+
+-- 35. Month-end orders
+SELECT EmployeeID, OrderID, OrderDate
+FROM Orders
+WHERE CONVERT(DATE,OrderDate) = EOMONTH ( OrderDate )
+ORDER BY EmployeeID, OrderID
