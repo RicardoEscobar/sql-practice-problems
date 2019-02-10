@@ -66,3 +66,9 @@ SELECT TOP(10) OrderID, COUNT(*) AS TotalOrderDetails
 FROM OrderDetails
 GROUP BY OrderID
 ORDER BY TotalOrderDetails DESC
+
+-- 37. Orders random assortment
+SELECT TOP(2)PERCENT  -- GET THE 2% OF 830
+  OrderID
+FROM Orders
+ORDER BY NEWID()
