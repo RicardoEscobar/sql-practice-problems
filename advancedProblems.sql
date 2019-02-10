@@ -103,3 +103,9 @@ From OrderDetails
              Group By OrderID, Quantity
              Having Count(*) > 1) PotentialProblemOrders on PotentialProblemOrders.OrderID = OrderDetails.OrderID
 Order by OrderID, ProductID
+
+-- 41. Late orders
+SELECT OrderID, OrderDate, RequiredDate, ShippedDate
+FROM Orders
+WHERE ShippedDate >= RequiredDate
+ORDER BY OrderID
