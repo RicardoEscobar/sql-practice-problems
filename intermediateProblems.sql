@@ -32,3 +32,9 @@ SELECT
        CASE WHEN Region IS NULL THEN 1 ELSE 0 END AS isNull
 FROM Customers
 ORDER BY isNull, Region
+
+-- 25. High freight charges
+SELECT TOP(3) ShipCountry, AVG(Freight) AS AverageFreight
+FROM Orders
+GROUP BY ShipCountry
+ORDER BY AverageFreight DESC
