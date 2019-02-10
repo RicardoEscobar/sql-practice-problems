@@ -79,3 +79,13 @@ FROM Customers AS C
 LEFT JOIN Orders O on C.CustomerID = O.CustomerID
 WHERE O.CustomerID IS NULL
 ORDER BY O.CustomerID
+
+-- 31. Customers with no orders for EmployeeID 4
+SELECT
+  C.CustomerID AS Customers_CustumerID,
+  O.CustomerID AS Orders_CustumerID
+FROM Customers AS C
+LEFT JOIN Orders O on C.CustomerID = O.CustomerID
+  AND EmployeeID = 4
+WHERE O.CustomerID IS NULL
+ORDER BY O.CustomerID
