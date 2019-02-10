@@ -16,3 +16,10 @@ SELECT ProductID, ProductName, UnitsInStock, ReorderLevel
 FROM Products
 WHERE UnitsInStock <= ReorderLevel
 ORDER BY ProductID;
+
+-- 23. Products that need reordering, continued
+SELECT ProductID, ProductName, UnitsInStock, UnitsOnOrder, ReorderLevel, Discontinued
+FROM Products
+WHERE UnitsInStock + UnitsOnOrder <= ReorderLevel
+  AND Discontinued = 0
+ORDER BY ProductID;
