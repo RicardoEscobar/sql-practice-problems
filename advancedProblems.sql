@@ -321,3 +321,27 @@ SELECT
 FROM CustomerGrouping_CTE
 GROUP BY CustomerGrouping_CTE.CustumerGroup
 ORDER BY TotalInGroup DESC
+
+-- 51. Customer grouping—flexible
+;WITH Orders_CTE AS (
+  SELECT
+         C.CustomerID,
+         C.CompanyName,
+         TotalOrderAmount = SUM(OD.UnitPrice * OD.Quantity)
+  FROM Customers AS C
+         JOIN Orders AS O ON C.CustomerID = O.CustomerID
+         JOIN OrderDetails AS OD ON O.OrderID = OD.OrderID
+  WHERE OrderDate BETWEEN '20160101' AND '20170101'
+  GROUP BY
+           C.CompanyName,
+           C.CustomerID
+)
+SELECT
+  CustomerID,
+  CompanyName,
+  TotalOrderAmount,
+  CustomerGroupName
+FROM Orders_CTE
+JOIN CustomerGroupThresholds AS CGT
+  ON Orders_CTE.TotalOrderAmount BETWEEN CGT.RangeBottom AND CGT.RangeTop
+ORDER BY CustomerID
