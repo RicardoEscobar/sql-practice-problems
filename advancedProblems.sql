@@ -373,3 +373,16 @@ SELECT
   ISNULL(TotalCustomers, 0) AS TotalCustomers
 FROM Suppliers_CTE
 FULL OUTER JOIN Customers_CTE ON Suppliers_CTE.Country = Customers_CTE.Country
+
+-- 55. First order in each country
+;WITH CTE AS
+(Select
+  ShipCountry,
+  CustomerID,
+  OrderID,
+  OrderDate = convert(date, OrderDate),
+  RowNumberPerCountry =
+    Row_Number() over (Partition by ShipCountry Order by ShipCountry, OrderID)
+ From Orders)
+SELECT SHIPCOUNTRY, CUSTOMERID, ORDERID, ORDERDATEQ
+FROM CTE WHERE RowNumberPerCountry = 1
