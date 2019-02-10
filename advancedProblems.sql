@@ -350,3 +350,14 @@ ORDER BY CustomerID
 SELECT Country FROM Suppliers
   UNION
 SELECT Country FROM Customers
+
+-- 53. Countries with suppliers or customers, version 2
+;WITH
+  Suppliers_CTE AS (SELECT Country FROM Suppliers),
+  Customers_CTE AS (SELECT Country FROM Customers)
+
+SELECT DISTINCT
+  Suppliers_CTE.Country AS SupplierCountry,
+  Customers_CTE.Country AS CustomerCountry
+FROM Suppliers_CTE
+FULL OUTER JOIN Customers_CTE ON Suppliers_CTE.Country = Customers_CTE.Country
