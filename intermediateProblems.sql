@@ -23,3 +23,12 @@ FROM Products
 WHERE UnitsInStock + UnitsOnOrder <= ReorderLevel
   AND Discontinued = 0
 ORDER BY ProductID;
+
+-- 24. Customer list by region
+SELECT
+       CustomerID,
+       CompanyName,
+       Region,
+       CASE WHEN Region IS NULL THEN 1 ELSE 0 END AS isNull
+FROM Customers
+ORDER BY isNull, Region
