@@ -361,3 +361,15 @@ SELECT DISTINCT
   Customers_CTE.Country AS CustomerCountry
 FROM Suppliers_CTE
 FULL OUTER JOIN Customers_CTE ON Suppliers_CTE.Country = Customers_CTE.Country
+
+-- 54. Countries with suppliers or customers, version 3
+;WITH
+  Suppliers_CTE AS (SELECT Country, TotalSuppliers = COUNT(*) FROM Suppliers GROUP BY Country),
+  Customers_CTE AS (SELECT Country, TotalCustomers = COUNT(*) FROM Customers GROUP BY Country)
+
+SELECT
+  ISNULL(Suppliers_CTE.Country, Customers_CTE.Country) AS Country,
+  ISNULL(TotalSuppliers, 0) AS TotalSuppliers,
+  ISNULL(TotalCustomers, 0) AS TotalCustomers
+FROM Suppliers_CTE
+FULL OUTER JOIN Customers_CTE ON Suppliers_CTE.Country = Customers_CTE.Country
