@@ -258,9 +258,66 @@ ORDER BY E.EmployeeID
 )
 SELECT CustomerID, CompanyName, Orders_CTE.TotalOrderAmount,
   CASE
-    WHEN Orders_CTE.TotalOrderAmount BETWEEN 0 AND 1000 THEN 'Low'
-    WHEN Orders_CTE.TotalOrderAmount BETWEEN 1001 AND 5000 THEN 'Medium'
-    WHEN Orders_CTE.TotalOrderAmount BETWEEN 5001 AND 10000 THEN 'High'
-    WHEN Orders_CTE.TotalOrderAmount > 10000 THEN 'Very High'
+    WHEN Orders_CTE.TotalOrderAmount > 0.0 AND Orders_CTE.TotalOrderAmount <= 1000.0 THEN 'Low'
+    WHEN Orders_CTE.TotalOrderAmount >= 1000.0 AND Orders_CTE.TotalOrderAmount <= 5000.0 THEN 'Medium'
+    WHEN Orders_CTE.TotalOrderAmount >= 5000.0 AND Orders_CTE.TotalOrderAmount <= 10000.0 THEN 'High'
+    WHEN Orders_CTE.TotalOrderAmount >= 10000.0 THEN 'Very High'
 END AS CustomerGroup
 FROM Orders_CTE
+
+-- 49. Customer grouping—fix null
+;WITH Orders_CTE AS (
+  SELECT
+         C.CustomerID,
+         C.CompanyName,
+         TotalOrderAmount = SUM(OD.UnitPrice * OD.Quantity)
+  FROM Customers AS C
+         JOIN Orders AS O ON C.CustomerID = O.CustomerID
+         JOIN OrderDetails AS OD ON O.OrderID = OD.OrderID
+  WHERE OrderDate BETWEEN '20160101' AND '20170101'
+  GROUP BY
+           C.CompanyName,
+           C.CustomerID
+)
+SELECT CustomerID, CompanyName, Orders_CTE.TotalOrderAmount,
+  CASE
+    WHEN Orders_CTE.TotalOrderAmount > 0.0 AND Orders_CTE.TotalOrderAmount <= 1000.0 THEN 'Low'
+    WHEN Orders_CTE.TotalOrderAmount >= 1000.0 AND Orders_CTE.TotalOrderAmount <= 5000.0 THEN 'Medium'
+    WHEN Orders_CTE.TotalOrderAmount >= 5000.0 AND Orders_CTE.TotalOrderAmount <= 10000.0 THEN 'High'
+    WHEN Orders_CTE.TotalOrderAmount >= 10000.0 THEN 'Very High'
+END AS CustomerGroup
+FROM Orders_CTE
+
+-- 50. Customer grouping with percentage
+;WITH Orders_CTE AS (
+  SELECT
+         C.CustomerID,
+         C.CompanyName,
+         TotalOrderAmount = SUM(OD.UnitPrice * OD.Quantity)
+  FROM Customers AS C
+         JOIN Orders AS O ON C.CustomerID = O.CustomerID
+         JOIN OrderDetails AS OD ON O.OrderID = OD.OrderID
+  WHERE OrderDate BETWEEN '20160101' AND '20170101'
+  GROUP BY
+           C.CompanyName,
+           C.CustomerID
+),
+
+CustomerGrouping_CTE AS (
+  SELECT CustumerGroup =
+  CASE
+    WHEN Orders_CTE.TotalOrderAmount > 0.0 AND Orders_CTE.TotalOrderAmount <= 1000.0 THEN 'Low'
+    WHEN Orders_CTE.TotalOrderAmount >= 1000.0 AND Orders_CTE.TotalOrderAmount <= 5000.0 THEN 'Medium'
+    WHEN Orders_CTE.TotalOrderAmount >= 5000.0 AND Orders_CTE.TotalOrderAmount <= 10000.0 THEN 'High'
+    WHEN Orders_CTE.TotalOrderAmount >= 10000.0 THEN 'Very High'
+  END
+  FROM Orders_CTE
+
+)
+SELECT
+  CustomerGrouping_CTE.CustumerGroup,
+  COUNT(*) AS TotalInGroup,
+  PercentInGroup = COUNT(*) * 1.0 / (SELECT COUNT(*) FROM CustomerGrouping_CTE)
+FROM CustomerGrouping_CTE
+GROUP BY CustomerGrouping_CTE.CustumerGroup
+ORDER BY TotalInGroup DESC
