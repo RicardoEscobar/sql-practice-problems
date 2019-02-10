@@ -52,3 +52,13 @@ From Orders
 Where OrderDate between '20150101' and '20160101'
 Group By ShipCountry
 ORDER BY AverageFreight
+
+-- 28. High freight charges with between - last year
+DECLARE @END_DATE AS DATETIME = (SELECT MAX(OrderDate) FROM Orders);
+DECLARE @START_DATE AS DATETIME = (Select Dateadd(yy, -1, @END_DATE));
+
+SELECT TOP(3) ShipCountry, AVG(Freight) AS AverageFreight
+FROM Orders
+WHERE OrderDate BETWEEN @START_DATE AND @END_DATE
+GROUP BY ShipCountry
+ORDER BY AverageFreight DESC
