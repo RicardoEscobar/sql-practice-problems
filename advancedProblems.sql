@@ -109,3 +109,14 @@ SELECT OrderID, OrderDate, RequiredDate, ShippedDate
 FROM Orders
 WHERE ShippedDate >= RequiredDate
 ORDER BY OrderID
+
+-- 42. Late orders—which employees?
+SELECT
+  E.EmployeeID,
+  E.LastName,
+  COUNT(O.OrderID) AS LateOrders
+FROM Orders AS O
+JOIN Employees AS E on O.EmployeeID = E.EmployeeID
+WHERE ShippedDate >= RequiredDate
+GROUP BY E.EmployeeID, LastName
+ORDER BY E.EmployeeID
