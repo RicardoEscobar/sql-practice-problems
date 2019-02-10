@@ -38,3 +38,10 @@ SELECT TOP(3) ShipCountry, AVG(Freight) AS AverageFreight
 FROM Orders
 GROUP BY ShipCountry
 ORDER BY AverageFreight DESC
+
+-- 26. High freight charges - 2015
+SELECT TOP(3) ShipCountry, AVG(Freight) AS AverageFreight
+FROM Orders
+WHERE YEAR(OrderDate) = 2015
+GROUP BY ShipCountry
+ORDER BY AverageFreight DESC
