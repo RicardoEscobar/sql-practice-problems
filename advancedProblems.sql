@@ -386,3 +386,15 @@ FULL OUTER JOIN Customers_CTE ON Suppliers_CTE.Country = Customers_CTE.Country
  From Orders)
 SELECT SHIPCOUNTRY, CUSTOMERID, ORDERID, ORDERDATEQ
 FROM CTE WHERE RowNumberPerCountry = 1
+
+-- 56. Customers with multiple orders in 5 day period
+Select InitialOrder.CustomerID,
+       InitialOrderID   = InitialOrder.OrderID,
+       InitialOrderDate = CONVERT(DATE, InitialOrder.OrderDate),
+       NextOrderID      = NextOrder.OrderID,
+       NextOrderDate    = CONVERT(DATE, NextOrder.OrderDate),
+       DaysBetweenOrders = DATEDIFF(DD, CONVERT(DATE, InitialOrder.OrderDate), CONVERT(DATE, NextOrder.OrderDate))
+from Orders InitialOrder
+       join Orders NextOrder on InitialOrder.CustomerID = NextOrder.CustomerID
+where InitialOrder.OrderID < NextOrder.OrderID AND DATEDIFF(DD, CONVERT(DATE, InitialOrder.OrderDate), CONVERT(DATE, NextOrder.OrderDate)) <= 5
+Order by InitialOrder.CustomerID, InitialOrder.OrderID
