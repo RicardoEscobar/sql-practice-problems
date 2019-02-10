@@ -60,3 +60,9 @@ SELECT EmployeeID, OrderID, OrderDate
 FROM Orders
 WHERE CONVERT(DATE,OrderDate) = EOMONTH ( OrderDate )
 ORDER BY EmployeeID, OrderID
+
+-- 36. Orders with many line items
+SELECT TOP(10) OrderID, COUNT(*) AS TotalOrderDetails
+FROM OrderDetails
+GROUP BY OrderID
+ORDER BY TotalOrderDetails DESC
