@@ -86,10 +86,20 @@ ORDER BY OrderID
   SELECT OrderID
   FROM OrderDetails
   WHERE Quantity >= 60
-  GROUP BY ORDERID, QUANTITY
+  GROUP BY OrderID, Quantity
   HAVING COUNT(*) > 1
 )
 SELECT OrderID, ProductID, UnitPrice, Quantity, Discount
 FROM OrderDetails
 WHERE OrderID IN (SELECT OrderID FROM DUPLICATES_CTE)
 ORDER BY OrderID, Quantity
+
+-- 40. Orders—accidental double-entry details, derived table
+Select OrderDetails.OrderID, ProductID, UnitPrice, Quantity, Discount
+From OrderDetails
+       Join (Select DISTINCT OrderID
+             From OrderDetails
+             Where Quantity >= 60
+             Group By OrderID, Quantity
+             Having Count(*) > 1) PotentialProblemOrders on PotentialProblemOrders.OrderID = OrderDetails.OrderID
+Order by OrderID, ProductID
