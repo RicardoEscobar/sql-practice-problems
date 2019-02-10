@@ -36,3 +36,21 @@ GROUP BY
 --  OD.Quantity
 HAVING SUM(OD.UnitPrice * OD.Quantity) >= 15000
 ORDER BY TotalOrderAmount DESC
+
+-- 34. High-value customers with discount
+SELECT
+  C.CustomerID,
+  C.CompanyName,
+  "Totals Without Discount" = SUM(OD.UnitPrice * OD.Quantity),
+  "Totals With Discount" =
+    SUM((OD.UnitPrice * OD.Quantity) - ((OD.UnitPrice * OD.Quantity) * OD.Discount))-- 0.15 = 15% discount
+FROM Customers AS C
+JOIN Orders AS O ON C.CustomerID = O.CustomerID
+JOIN OrderDetails AS OD ON O.OrderID = OD.OrderID
+WHERE
+  OrderDate BETWEEN '20160101' AND '20170101'
+GROUP BY
+  C.CompanyName,
+  C.CustomerID
+HAVING SUM(OD.UnitPrice * OD.Quantity) >= 15000
+ORDER BY "Totals With Discount" DESC
