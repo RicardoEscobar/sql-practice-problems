@@ -80,3 +80,16 @@ WHERE Quantity >= 60
 GROUP BY ORDERID, QUANTITY
 HAVING COUNT(*) > 1
 ORDER BY OrderID
+
+-- 39. Orders—accidental double-entry details
+;WITH DUPLICATES_CTE AS (
+  SELECT OrderID
+  FROM OrderDetails
+  WHERE Quantity >= 60
+  GROUP BY ORDERID, QUANTITY
+  HAVING COUNT(*) > 1
+)
+SELECT OrderID, ProductID, UnitPrice, Quantity, Discount
+FROM OrderDetails
+WHERE OrderID IN (SELECT OrderID FROM DUPLICATES_CTE)
+ORDER BY OrderID, Quantity
