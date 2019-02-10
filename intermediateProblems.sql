@@ -10,3 +10,9 @@ SELECT Country, City, COUNT(City) AS TotalCustomers
 FROM Customers
 GROUP BY Country, City
 ORDER BY TotalCustomers DESC
+
+-- 22. Products that need reordering
+SELECT ProductID, ProductName, UnitsInStock, ReorderLevel
+FROM Products
+WHERE UnitsInStock <= ReorderLevel
+ORDER BY ProductID;
