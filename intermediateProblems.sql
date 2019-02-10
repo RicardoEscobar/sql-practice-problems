@@ -70,3 +70,12 @@ JOIN Orders AS O ON E.EmployeeID = O.EmployeeID
 JOIN OrderDetails AS OD ON O.OrderID = OD.OrderID
 JOIN Products AS P ON OD.ProductID = P.ProductID
 ORDER BY O.OrderID, P.ProductID
+
+-- 30. Customers with no orders
+SELECT
+  C.CustomerID AS Customers_CustumerID,
+  O.CustomerID AS Orders_CustumerID
+FROM Customers AS C
+LEFT JOIN Orders O on C.CustomerID = O.CustomerID
+WHERE O.CustomerID IS NULL
+ORDER BY O.CustomerID
