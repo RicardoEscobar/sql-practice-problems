@@ -45,3 +45,10 @@ FROM Orders
 WHERE YEAR(OrderDate) = 2015
 GROUP BY ShipCountry
 ORDER BY AverageFreight DESC
+
+-- 27. High freight charges with between
+Select Top 3 ShipCountry, AverageFreight = avg(freight)
+From Orders
+Where OrderDate between '20150101' and '20160101'
+Group By ShipCountry
+ORDER BY AverageFreight
