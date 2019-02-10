@@ -120,3 +120,27 @@ JOIN Employees AS E on O.EmployeeID = E.EmployeeID
 WHERE ShippedDate >= RequiredDate
 GROUP BY E.EmployeeID, LastName
 ORDER BY E.EmployeeID
+
+-- 43. Late orders vs. total orders
+;WITH LateOrders_CTE AS (Select EmployeeID, LateOrders = Count(*)
+                        From Orders
+                        Where RequiredDate <= ShippedDate
+                        Group By EmployeeID
+),
+ TotalOrders_CTE AS (SELECT EmployeeID,
+                         TotalOrders = Count(*)
+                         From Orders
+                         Group By EmployeeID
+)
+SELECT
+  E.EmployeeID,
+  E.LastName,
+  TotalOrders_CTE.TotalOrders,
+  LateOrders_CTE.LateOrders
+FROM Orders AS O
+JOIN Employees AS E on O.EmployeeID = E.EmployeeID
+JOIN TotalOrders_CTE ON E.EmployeeID = TotalOrders_CTE.EmployeeID
+JOIN LateOrders_CTE ON E.EmployeeID = LateOrders_CTE.EmployeeID
+WHERE ShippedDate >= RequiredDate
+GROUP BY E.EmployeeID, LastName, TotalOrders_CTE.TotalOrders, LateOrders_CTE.LateOrders
+ORDER BY E.EmployeeID
